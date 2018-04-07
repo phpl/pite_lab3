@@ -1,14 +1,14 @@
-class OXConsoleView:
-    def error(self, model, result):
+class GameViews:
+    def error_ox(self, model, result):
         return False
 
-    def add_player(self, model, result):
+    def add_player_ox(self, model, result):
         return result
 
-    def get_current_player(self, model, result):
+    def get_current_player_ox(self, model, result):
         return result
 
-    def get_board(self, model, result):
+    def get_board_ox(self, model, result):
         '''render a nice board here'''
         if not result:
             return result
@@ -23,8 +23,8 @@ class OXConsoleView:
         board.append('\n')
         return ''.join(board)
 
-    def make_move(self, model, result):
+    def make_move_ox(self, model, result):
         return result
 
-    def check_game_result(self, model, result):
+    def check_game_result_ox(self, model, result):
         return result

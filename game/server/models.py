@@ -2,9 +2,12 @@ import math
 
 
 class OXModel:
-    def __init__(self, game_id):
+    def __init__(self, game_id, game_mode_multiplayer):
         self.__id = game_id
         self.__players = ['Player 1', 'Player2']
+        self.game_mode = game_mode_multiplayer == 'True'
+        if not self.game_mode:
+            self.__players[1] = 'Computer'
         self.__current_player = 0
         self.__board_len = 9
         self.__board = [-1 for it in range(0, self.__board_len)]
@@ -98,6 +101,3 @@ class OXModel:
         except FoundException as e:
             result = str(e) + ' won the game!'
         return result if result is not None else 'False'
-
-
-

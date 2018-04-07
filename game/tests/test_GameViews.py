@@ -1,14 +1,14 @@
 from unittest import TestCase
 
-from game.server.views import OXConsoleView
+from game.server.views import GameViews
 
 
-class TestOXConsoleView(TestCase):
+class TestGameViews(TestCase):
     test_view = None
 
     def setUp(self):
         super().setUp()
-        self.test_view = OXConsoleView()
+        self.test_view = GameViews()
 
     def test_error(self):
         result = self.test_view.error(None, None)

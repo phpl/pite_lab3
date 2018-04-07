@@ -1,35 +1,47 @@
 from game.client.OXControllerNetworkClient import OXControllerNetworkClient
+from game.common.messages import Messages
 
 
 class OXGame:
 
     def __init__(self):
+        self.__game_type = 'ox'
+        self.__game_mode_multiplayer = True
+        self.__message_handler = Messages(self.__game_type)
         self.controller = OXControllerNetworkClient()
         self.id = None
         while not self.id:
             self.id = self._get_new_game_instance()
 
     def add_player(self, name, player_no):
-        self.controller.get(method='add_player', id=self.id, player_name=name, player_number=player_no)
+        request = self.__message_handler. \
+            create_request('add_player', self.id, player_name=name, player_number=player_no)
+        return self.controller.get(**request)
 
     def get_current_player(self):
-        return self.controller.get(method='get_current_player', id=self.id)
+        request = self.__message_handler.create_request('get_current_player', self.id)
+        return self.controller.get(**request)
 
     def get_board(self):
-        return self.controller.get(method='get_board', id=self.id)
+        request = self.__message_handler.create_request('get_board', self.id)
+        return self.controller.get(**request)
 
     def make_move(self, field):
-        return self.controller.get(method='make_move', id=self.id, chosen_field=field)
+        request = self.__message_handler.create_request('make_move', self.id, chosen_field=field)
+        return self.controller.get(**request)
 
     def _get_new_game_instance(self):
-        return self.controller.get(method='get_new_game_instance', id=0)
+        request = self.__message_handler.create_request('get_new_game_instance', 0, mode=self.__game_mode_multiplayer)
+        return self.controller.get(**request)
 
     def check_game_result(self):
-        result = self.controller.get(method='check_game_result', id=self.id)
+        request = self.__message_handler.create_request('check_game_result', self.id)
+        result = self.controller.get(**request)
         return result if result != 'False' else None
 
     def end_game(self):
-        self.controller.get(method='end_game', id=self.id)
+        request = self.__message_handler.create_request('end_game', self.id)
+        self.controller.get(**request)
 
     def play(self):
         try:
