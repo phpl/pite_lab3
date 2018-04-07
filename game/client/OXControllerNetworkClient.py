@@ -8,8 +8,7 @@ class OXControllerNetworkClient:
     TCP_PORT = OXServer.TCP_PORT
     BUFFER_SIZE = OXServer.BUFFER_SIZE
 
-    def get(self, **params):
-        query_str = Messages.url_encode_request(params)
+    def get(self, query_str):
         request_not_completed = True
         return_val = s = None
 

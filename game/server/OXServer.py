@@ -46,7 +46,7 @@ class OXServer:
                 conn.sendall(str(json_ret).encode())
             except Exception as e:
                 # log exception and client address
-                Logger.log(e, addr)
+                Logger.log_request(e, addr)
             finally:
                 conn.close()
                 # print('Games active: ' + str(self.controller.games_active()))

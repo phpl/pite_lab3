@@ -26,6 +26,7 @@ class Config:
                'check_game_result_ox': {'model': OXModel.check_game_result,
                                         'view': GameViews.check_game_result_ox,
                                         'error_view': GameViews.error_ox
-                                        }
+                                        },
+               'end_game_ox': {'model': None, 'view': None, 'error_view': None}
 
                }

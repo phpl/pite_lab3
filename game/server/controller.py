@@ -2,11 +2,11 @@ from game.server.views import GameViews
 from game.server.config import Config
 from game.server.logger import Logger
 
+
 class Controller:
     def __init__(self):
         self.__default_view = GameViews
         self.__actions = Config.actions
-        self.__actions['end_game'] = {'model': None, 'view': None, 'error_view': None}
         self.__games = {}
         self.__game_guid = 0
         self.__games_cnt_limit = 10
@@ -14,7 +14,7 @@ class Controller:
     def get(self, action, game_id, *params):
         if action in self.__actions and game_id in self.__games:
             # handle end_game request
-            if action == 'end_game':
+            if action.startswith('end_game'):
                 del self.__games[game_id]
                 return
 

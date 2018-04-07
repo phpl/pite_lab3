@@ -7,7 +7,11 @@ class Messages:
         self._game_type = '_' + game_type
 
     def create_request(self, method, game_id, **args):
-        return {'method': method + self._game_type, 'id': game_id, **args}
+        request = [('method', method + self._game_type), ('id', str(game_id))]
+        for key in args:
+            args[key] = str(args[key])
+        request.extend(args.items())
+        return json.dumps(request)
 
     @staticmethod
     def generate_response(status_code, body_return_value):
@@ -24,13 +28,13 @@ class Messages:
             if this function raises KeyError
             the main server loop closes the connection automatically
         """
-        data_str = data.decode(encoding='ascii')
-        request_params_list = parse.parse_qsl(data_str)
+        data_str = data.decode(encoding='UTF-8')
+        request_params_list = json.loads(data_str)
         if request_params_list[0][0] != 'method' or request_params_list[1][0] != 'id':
             raise ValueError('Query string does not include method and id at the beginning')
         method = request_params_list[0][1]
         game_id = request_params_list[1][1]
-        optional_params_list = [value for key, value in request_params_list[2:]]
+        optional_params_list = [item[1] for item in request_params_list[2:]]
         return method, game_id, optional_params_list
 
     @staticmethod
@@ -46,10 +50,6 @@ class Messages:
         else:
             json_ret = Messages.generate_response(200, response)
         return json_ret
-
-    @staticmethod
-    def url_encode_request(request):
-        return parse.urlencode(request)
 
     @staticmethod
     def process_response(data):

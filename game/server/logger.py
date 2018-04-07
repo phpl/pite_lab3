@@ -1,6 +1,6 @@
 class Logger:
     @staticmethod
-    def log(e, address):
+    def log_request(e, address):
         print('Log: ' + str(e) + ', Request error from:' + str(address))
 
     @staticmethod
