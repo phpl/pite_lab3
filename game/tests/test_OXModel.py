@@ -7,35 +7,35 @@ class TestOXModel(TestCase):
     testModel = None
     test_name = 'testName'
     player1 = 'Player 1'
-    player2 = 'Player2'
+    player2 = 'Player 2'
 
     def setUp(self):
         super().setUp()
-        self.testModel = OXModel(0)
+        self.testModel = OXModel(0, 'True')
 
     def test_add_player(self):
         test_id = 0
 
         self.testModel.add_player(self.test_name, test_id)
 
-        self.assertEqual(self.test_name, self.testModel._OXModel__players[test_id])
-        self.assertEqual(self.player2, self.testModel._OXModel__players[1])
+        self.assertEqual(self.test_name, self.testModel._players[test_id])
+        self.assertEqual(self.player2, self.testModel._players[1])
 
     def test_add_player_id_len_too_big(self):
         test_id = 4
 
         self.testModel.add_player(self.test_name, test_id)
 
-        self.assertEqual(self.player1, self.testModel._OXModel__players[0])
-        self.assertEqual(self.player2, self.testModel._OXModel__players[1])
+        self.assertEqual(self.player1, self.testModel._players[0])
+        self.assertEqual(self.player2, self.testModel._players[1])
 
     def test_add_player_id_negative(self):
         test_id = -3
 
         self.testModel.add_player(self.test_name, test_id)
 
-        self.assertEqual(self.player1, self.testModel._OXModel__players[0])
-        self.assertEqual(self.player2, self.testModel._OXModel__players[1])
+        self.assertEqual(self.player1, self.testModel._players[0])
+        self.assertEqual(self.player2, self.testModel._players[1])
 
     def test_get_players_count(self):
         expected_count = 2
@@ -50,7 +50,7 @@ class TestOXModel(TestCase):
         self.assertEqual(self.player1, result_player)
 
     def test_get_current_player_one(self):
-        self.testModel._OXModel__current_player = 1
+        self.testModel._current_player = 1
 
         result_player = self.testModel.get_current_player()
 
@@ -71,8 +71,8 @@ class TestOXModel(TestCase):
         field_to_move = 3
 
         expected = self.testModel.make_move(field_to_move)
-        result_board = self.testModel._OXModel__board
-        result_player = self.testModel._OXModel__current_player
+        result_board = self.testModel._board
+        result_player = self.testModel._current_player
 
         self.assertTrue(expected)
         self.assertNotEqual(board, result_board)
@@ -93,7 +93,7 @@ class TestOXModel(TestCase):
     def test_check_game_result_win(self):
         expected_result = self.player1 + ' won the game!'
         board_len = 9
-        self.testModel._OXModel__board = [0 for it in range(0, board_len)]
+        self.testModel._board = [0 for it in range(0, board_len)]
 
         result = self.testModel.check_game_result()
 
@@ -101,7 +101,7 @@ class TestOXModel(TestCase):
 
     def test_check_game_result_draw(self):
         expected_result = 'A draw'
-        self.testModel._OXModel__board = [1, 1, 0,
+        self.testModel._board = [1, 1, 0,
                                           0, 1, 1,
                                           1, 0, 0]
 

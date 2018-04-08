@@ -5,8 +5,7 @@ from game.common.messages import Messages
 class OXGame:
 
     def __init__(self):
-        self.__game_type = 'ox'
-        self.__game_mode_multiplayer = True
+        self.__game_type, self.__game_mode_multiplayer = self._prompt_user_for_game_type()
         self.__message_handler = Messages(self.__game_type)
         self.controller = OXControllerNetworkClient()
         self.id = None
@@ -56,24 +55,41 @@ class OXGame:
     def _init_players(self):
         player1 = input('Please enter yor name (Player 1)\n')
         self.add_player(player1, 0)
-
-        player2 = input('Please enter yor name (Player 2)\n')
-        self.add_player(player2, 1)
+        if self.__game_mode_multiplayer:
+            player2 = input('Please enter yor name (Player 2)\n')
+            self.add_player(player2, 1)
 
     def _perform_next_move(self):
         print(self.get_board())
         move_ok = None
         while not move_ok:
-            move = input('Player ' + self.get_current_player() + ' enter next move\n')
+            move = input('Please choose next move\n')
             move_ok = self.make_move(move)
         return self.check_game_result()
 
     def _finish_game(self, result):
         print('Game Over!')
         print(self.get_board())
+        print('\n')
         print(result)
         self.end_game()
         print('Thank you.')
+
+    def _prompt_user_for_game_type(self):
+        game_types = ['ox', 'interval']
+        out_game = None
+        multi_player = False
+        while out_game not in game_types:
+            print('\nSelect game number\n 0 - Tic Tac Toe\n 1 - Intervals')
+            choice = input()
+            if '0' != choice and choice != '1':
+                continue
+            out_game = game_types[int(choice)]
+        if out_game == 'ox':
+            choice = input('If you want to play in multiplayer mode please press enter, else type N\n')
+            multi_player = len(choice) == 0
+
+        return out_game, multi_player
 
 
 if __name__ == '__main__':

@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from game.server.views import GameViews
+from game.server.views import OXView
 
 
 class TestGameViews(TestCase):
@@ -8,7 +8,7 @@ class TestGameViews(TestCase):
 
     def setUp(self):
         super().setUp()
-        self.test_view = GameViews()
+        self.test_view = OXView()
 
     def test_error(self):
         result = self.test_view.error(None, None)

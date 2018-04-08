@@ -1,11 +1,9 @@
-from game.server.views import GameViews
-from game.server.config import Config
+from game.server.config import Config, ViewResolver
 from game.server.logger import Logger
 
 
 class Controller:
     def __init__(self):
-        self.__default_view = GameViews
         self.__actions = Config.actions
         self.__games = {}
         self.__game_guid = 0
@@ -41,10 +39,13 @@ class Controller:
         return self.__actions[action]['model'](self.__games[game_id], *params)
 
     def _execute_view_function(self, action, game_id, result):
-        return self.__actions[action]['view'](self.__default_view, self.__games[game_id], result)
+        return self.__actions[action]['view'](self._resolve_view(action), self.__games[game_id], result)
 
     def _execute_error_function(self, action, game_id, result):
-        return self.__actions[action]['error_view'](self.__default_view, self.__games[game_id], result)
+        return self.__actions[action]['error_view'](self._resolve_view(action), self.__games[game_id], result)
 
     def games_active(self):
         return len(self.__games)
+
+    def _resolve_view(self, action):
+        return ViewResolver.resolve(action)
