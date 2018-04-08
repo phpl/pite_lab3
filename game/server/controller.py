@@ -1,10 +1,11 @@
-from game.server.config import Config, ViewResolver
 from game.server.logger import Logger
+from game.server.config import Config, ViewResolver
 
 
 class Controller:
     def __init__(self):
-        self.__actions = Config.actions
+        self.config = Config()
+        self.__actions = self.config.actions
         self.__games = {}
         self.__game_guid = 0
         self.__games_cnt_limit = 10
@@ -48,4 +49,4 @@ class Controller:
         return len(self.__games)
 
     def _resolve_view(self, action):
-        return ViewResolver.resolve(action)
+        return ViewResolver.resolve(action, self.config)
