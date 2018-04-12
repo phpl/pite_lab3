@@ -1,4 +1,5 @@
 from unittest import TestCase
+from unittest.mock import patch
 
 from game.server.views import OXView
 
@@ -28,11 +29,14 @@ class TestGameViews(TestCase):
 
         self.assertEqual(expected_result, result)
 
-    def test_get_board(self):
-        expected_result = '''\n | | \n-----\n | | \n-----\n | | \n'''
+    @patch('game.server.config.OXModel')
+    def test_get_board(self, model_mock):
+        expected_result = '''\n | | \n-----\n | | \n-----\n | | \n\ntest - X'''
         game_values = [-1, -1, -1, -1, -1, -1, -1, -1, -1]
 
-        result = self.test_view.get_board(model=None, result=game_values)
+        model_mock.return_value = model_mock
+        model_mock.get_current_player.return_value = "test"
+        result = self.test_view.get_board(model=model_mock, result=game_values)
 
         self.assertEqual(expected_result, result)
 
