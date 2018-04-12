@@ -1,5 +1,5 @@
 # PitE_lab2
-## Games server - Client/Server Edition
+## Games - Client/Server Edition
 This application can be easily ported to be run as a web service on Apache server and regular web browser JavaScript client.
 Games implemented:
 * TicTacToe
