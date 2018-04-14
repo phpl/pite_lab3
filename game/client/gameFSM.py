@@ -9,7 +9,7 @@ class Transition:
         self.action = action
 
 
-class GameTransitionFSM:
+class GameFSM:
     def __init__(self, game):
         self.state = GameStatus.INIT
         self.game = game

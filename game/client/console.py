@@ -1,5 +1,5 @@
 from game.client.OXControllerNetworkClient import OXControllerNetworkClient
-from game.client.gameFSM import GameTransitionFSM, Events
+from game.client.gameFSM import GameFSM, Events
 from game.common.messages import Messages
 
 
@@ -14,7 +14,7 @@ class OXGame:
         while not self.id:
             self.id = self._get_new_game_instance()
 
-        self.fsm = GameTransitionFSM(self)
+        self.fsm = GameFSM(self)
 
     def add_player(self, name, player_no):
         request = self.__message_handler. \
