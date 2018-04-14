@@ -115,7 +115,7 @@ class TestOXGame(TestCase):
         game.id = 1
 
         with patch('builtins.input', return_value='test'):
-            game._init_players()
+            game.init_players()
 
         controller_mock.assert_called_with(
             '[["method", "add_player_ox"], ["id", "1"], ["player_name", "test"], ["player_number", "0"]]')
@@ -129,20 +129,20 @@ class TestOXGame(TestCase):
         game.id = 1
 
         with patch('builtins.input', return_value=1):
-            game._perform_next_move()
+            game.perform_next_move()
 
         controller_mock.assert_called_with(
             '[["method", "check_game_result_ox"], ["id", "1"]]')
 
-    @patch('game.client.console.OXGame.prompt_user_for_game_type',
-           return_value=('ox', False))
+    @patch('game.client.console.OXGame.prompt_user_for_game_type', return_value=('ox', False))
     @patch('game.client.OXControllerNetworkClient.OXControllerNetworkClient.get')
     def test__finish_game(self, controller_mock, game_sel):
         game = OXGame()
 
         game.id = 1
+        game._in_game_result = "test"
 
-        game._finish_game("test")
+        game.finish_game()
 
         controller_mock.assert_called_with(
             '[["method", "end_game_ox"], ["id", "1"]]')
