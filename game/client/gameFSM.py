@@ -11,14 +11,14 @@ class Transition:
 
 class GameFSM:
     def __init__(self, game):
-        self.state = GameStatus.INIT
-        self.game = game
-        self.transitions = {
-            Events.INIT_GAME: Transition(GameStatus.INIT, GameStatus.IN_GAME, self.game.init_players),
-            Events.CONTINUE_GAME: Transition(GameStatus.IN_GAME, GameStatus.IN_GAME, self.game.perform_next_move),
-            Events.FINISH_GAME: Transition(GameStatus.IN_GAME, GameStatus.END_GAME, self.game.finish_game)
+        self.__state = GameStatus.INIT
+        self.__game = game
+        self.__transitions = {
+            Events.INIT_GAME: Transition(GameStatus.INIT, GameStatus.IN_GAME, self.__game.init_players),
+            Events.CONTINUE_GAME: Transition(GameStatus.IN_GAME, GameStatus.IN_GAME, self.__game.perform_next_move),
+            Events.FINISH_GAME: Transition(GameStatus.IN_GAME, GameStatus.END_GAME, self.__game.finish_game)
         }
 
     def handle_event(self, event):
-        self.state = self.transitions[event].next_state
-        self.transitions[event].action()
+        self.__state = self.__transitions[event].next_state
+        self.__transitions[event].action()
